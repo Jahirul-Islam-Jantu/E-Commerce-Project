@@ -14,6 +14,7 @@ import {
     URL_ENCODING
 } from "./app/config/config.js";
 import router from "./app/router/api.js";
+import * as path from "node:path";
 
 // crete an app instance
 const app = express();
@@ -40,5 +41,9 @@ mongoose.connect(MONGODB_CONNECTION, {autoIndex: true}).then(()=>{
 // router setup
 app.use("/api", router)
 
-// app listening
-app.listen
+
+// app listening with front end routing
+app.use(express.static('client/dist'))
+app.get('*', function(req, res){
+    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
+})
