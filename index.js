@@ -8,7 +8,7 @@ import hpp from "hpp"
 import cookieParser from "cookie-parser"
 import {
     MAX_JSON_SIZE,
-    MONGODB_CONNECTION,
+    MONGODB_CONNECTION, PORT,
     REQUEST_LIMIT_NUMBER,
     REQUEST_LIMIT_TIME,
     URL_ENCODING
@@ -43,7 +43,10 @@ app.use("/api", router)
 
 
 // app listening with front end routing
-app.use(express.static('client/dist'))
-app.get('*', function(req, res){
-    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
+app.listen(PORT, ()=>{
+    console.log("App listening on PORT", PORT)
 })
+// app.use(express.static('client/dist'))
+// app.get('*', function(req, res){
+//     res.sendFile(path.resolve( 'client', 'dist', 'index.html'))
+// })

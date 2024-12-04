@@ -1,11 +1,20 @@
-export const ProductBrandList = async (req, res)=>{
+import {
+    ProductBrandListService,
+    ProductCategoryListService,
+    ProductSliderListService
+} from "../services/ProductServices.js";
 
+export const ProductBrandList = async (req, res)=>{
+    let result = await ProductBrandListService()
+    return res.status(200).json({result: result})
 }
 export const ProductCategoryList = async (req, res)=>{
-
+    let result = await ProductCategoryListService()
+    return res.status(200).json({result: result})
 }
 export const ProductSliderList = async (req, res)=>{
-
+    let result = await ProductSliderListService()
+    return res.status(200).json({result: result})
 }
 export const ProductListByBrand = async (req, res)=>{
 
