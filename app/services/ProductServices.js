@@ -1,6 +1,11 @@
 import BrandModel from "../model/BrandModel.js";
 import CategoryModel from "../model/CategoryModel.js";
 import ProductSliderModel from "../model/ProductSliderModel.js";
+import mongoose from "mongoose";
+
+
+
+const ObjectID = mongoose.Types.ObjectId;
 
 export const ProductBrandListService = async () => {
     try{
@@ -27,7 +32,11 @@ export const ProductSliderListService = async () => {
     }
 }
 export const ProductListByBrandService = async () => {
-
+    try{
+        let data = await
+    }catch(error){
+        return ({status:"error",error:error})
+    }
 }
 export const ProductListByCategoryService = async () => {
 

@@ -48,5 +48,5 @@ app.listen(PORT, ()=>{
 })
 // app.use(express.static('client/dist'))
 // app.get('*', function(req, res){
-//     res.sendFile(path.resolve( 'client', 'dist', 'index.html'))
+//     res.sendFile(path.resolve( __dirname,'client', 'dist', 'index.html'))
 // })
