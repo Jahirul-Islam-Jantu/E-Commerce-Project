@@ -42,6 +42,7 @@ export const ProductListByBrandService = async (req) => {
         let data = await ProductsModel.aggregate([
             MatchStage, JoinWithBrandStage, JoinWithCategoryStage
         ])
+        return ({status: "success", data: data})
     }catch(error){
         return ({status:"error",error:error})
     }
