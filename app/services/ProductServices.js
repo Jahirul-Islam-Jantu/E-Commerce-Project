@@ -50,8 +50,23 @@ export const ProductListByBrandService = async (req) => {
         return ({status:"error",error:error})
     }
 }
-export const ProductListByCategoryService = async () => {
+export const ProductListByCategoryService = async (req) => {
+    try{
+        let CategoryID = new ObjectID(req.params.CategoryID)
+        let MatchStage = {$match:{categoryID:CategoryID}}
+        let JoinWithBrandStage= {$lookup:{from:"brands", localField:"brandID", foreignField:"_id", as:"brands"}}
+        let JoinWithCategoryStage = {$lookup:{from:"categories", localField:"categoryID", foreignField:"_id", as:"categories"}}
+        let UnwindBrandStage = {$unwind:"$brands"}
+        let UnwindCategoryStage = {$unwind:"$categories"}
+        let ProjectionStage = {$project:{'brands._id':false, 'categories._id':0, 'brandID':false, 'categoryID':false, 'updatedAt':0 }}
 
+        let data = await ProductsModel.aggregate([
+            MatchStage, JoinWithBrandStage, JoinWithCategoryStage, UnwindBrandStage, UnwindCategoryStage, ProjectionStage
+        ])
+        return ({status: "success", data: data})
+    }catch(error){
+        return ({status:"error",error:error})
+    }
 }
 export const ProductListBySimilierService = async () => {
 
@@ -59,8 +74,23 @@ export const ProductListBySimilierService = async () => {
 export const ProductListByKeywordService = async () => {
 
 }
-export const ProductListByRemarkService = async () => {
+export const ProductListByRemarkService = async (req) => {
+    try{
+        let Remark = req.params.Remark
+        let MatchStage = {$match:{remark:Remark}}
+        let JoinWithBrandStage= {$lookup:{from:"brands", localField:"brandID", foreignField:"_id", as:"brands"}}
+        let JoinWithCategoryStage = {$lookup:{from:"categories", localField:"categoryID", foreignField:"_id", as:"categories"}}
+        let UnwindBrandStage = {$unwind:"$brands"}
+        let UnwindCategoryStage = {$unwind:"$categories"}
+        let ProjectionStage = {$project:{'brands._id':false, 'categories._id':0, 'brandID':false, 'categoryID':false, 'updatedAt':0 }}
 
+        let data = await ProductsModel.aggregate([
+            MatchStage, JoinWithBrandStage, JoinWithCategoryStage, UnwindBrandStage, UnwindCategoryStage, ProjectionStage
+        ])
+        return ({status: "success", data: data})
+    }catch(error){
+        return ({status:"error",error:error})
+    }
 }
 export const ProductListByReviewService = async () => {
 
