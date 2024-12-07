@@ -38,9 +38,11 @@ export const ProductListByBrandService = async (req) => {
         let MatchStage = {$match:{brandID:BrandID}}
         let JoinWithBrandStage= {$lookup:{from:"brands", localField:"brandID", foreignField:"_id", as:"brands"}}
         let JoinWithCategoryStage = {$lookup:{from:"categories", localField:"categoryID", foreignField:"_id", as:"categories"}}
+        let UnwindBrandStage = {$unwind:"$brands"}
+        let UnwindCategoryStage = {$unwind:"$categories"}
 
         let data = await ProductsModel.aggregate([
-            MatchStage, JoinWithBrandStage, JoinWithCategoryStage
+            MatchStage, JoinWithBrandStage, JoinWithCategoryStage, UnwindBrandStage, UnwindCategoryStage
         ])
         return ({status: "success", data: data})
     }catch(error){
