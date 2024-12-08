@@ -107,8 +107,30 @@ export const ProductDetailsService = async (req) => {
         return ({status:"error",error:error})
     }
 }
-export const ProductListByKeywordService = async () => {
+export const ProductListByKeywordService = async (req) => {
+    try{
+        let reqKey = req.params.Keyword
+        let SearchRegex =({"$regex":reqKey, "$options":"i"})
+        let SearchParams = [{title:SearchRegex}, {shortDes:SearchRegex}]
+        let SearchStage = {$or:SearchParams}
 
+        let MatchStage = {$match:SearchStage}
+
+        let JoinWithBrandStage= {$lookup:{from:"brands", localField:"brandID", foreignField:"_id", as:"brands"}}
+        let JoinWithCategoryStage = {$lookup:{from:"categories", localField:"categoryID", foreignField:"_id", as:"categories"}}
+        let JoinWithDetailsStage = {$lookup:{from:"productdetails", localField:"_id", foreignField:"productID", as:"productdetails"}}
+
+        let UnwindBrandStage = {$unwind:"$brands"}
+        let UnwindCategoryStage = {$unwind:"$categories"}
+        let ProjectionStage = {$project:{'brands._id':false, 'categories._id':0, 'brandID':false, 'categoryID':false, 'updatedAt':0 }}
+
+        let data = await ProductsModel.aggregate([
+            MatchStage, JoinWithBrandStage, JoinWithDetailsStage, JoinWithCategoryStage, UnwindBrandStage, UnwindCategoryStage, ProjectionStage
+        ])
+        return ({status: "success", data: data})
+    }catch(error){
+        return ({status:"error",error:error})
+    }
 }
 export const ProductListByRemarkService = async (req) => {
     try{
