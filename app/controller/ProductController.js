@@ -1,6 +1,10 @@
 import {
     ProductBrandListService,
-    ProductCategoryListService, ProductListByBrandService, ProductListByCategoryService, ProductListByRemarkService,
+    ProductCategoryListService,
+    ProductListByBrandService,
+    ProductListByCategoryService,
+    ProductListByRemarkService,
+    ProductListBySimilierService,
     ProductSliderListService
 } from "../services/ProductServices.js";
 
@@ -25,7 +29,8 @@ export const ProductListByCategory = async (req, res)=>{
     return res.status(200).json({result:result})
 }
 export const ProductListBySimilier = async (req, res)=>{
-
+    let result = await ProductListBySimilierService(req)
+    return res.status(200).json({result: result})
 }
 export const ProductListByKeyword = async (req, res)=>{
 
