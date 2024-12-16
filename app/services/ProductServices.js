@@ -3,6 +3,7 @@ import CategoryModel from "../model/CategoryModel.js";
 import ProductSliderModel from "../model/ProductSliderModel.js";
 import mongoose from "mongoose";
 import ProductsModel from "../model/ProductsModel.js";
+import ReviewModel from "../model/ReviewModel.js";
 
 
 
@@ -150,7 +151,25 @@ export const ProductListByRemarkService = async (req) => {
         return ({status:"error",error:error})
     }
 }
-export const ProductListByReviewService = async () => {
+export const ProductListByReviewService = async (req) => {
+    try{
+        let ProductID = new ObjectID(req.params.ProductID)
+        let MatchStage = {$match:{productID:ProductID}}
 
+        let JoinWithProfileStage = {$lookup:{from:"profiles", localField:"userID", foreignField:"userID", as:"profiles"}}
+        let UnwindProfile = {$unwind:"$profiles"}
+        let ProjectionStage = {$project:{"des":true, "rating": true, 'profiles.cus_name': true}}
+
+
+
+
+        let data = await ReviewModel.aggregate([
+            MatchStage, JoinWithProfileStage, UnwindProfile, ProjectionStage
+        ])
+
+        return ({status: "success", data: data})
+    }catch (error){
+        return ({status:"error",error:error})
+    }
 }
 
