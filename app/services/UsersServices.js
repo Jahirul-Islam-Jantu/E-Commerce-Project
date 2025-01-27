@@ -44,7 +44,7 @@ export const VerifyUserService = async (req) => {
     return { status: "failed", message: "Failed to verify email" };
   }
 };
-export const LogOutUserService = async (req) => {};
+
 export const CreateUserService = async (req) => {};
 export const UpdateUserService = async (req) => {};
 export const ReadUserService = async (req) => {};

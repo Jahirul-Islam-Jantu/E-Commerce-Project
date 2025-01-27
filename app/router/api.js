@@ -1,6 +1,7 @@
 import express from "express";
 import * as ProductController from "../controller/ProductController.js";
 import * as UserController from "../controller/userController.js";
+import { authMiddleware } from "./../middleware/AuthMiddleware.js";
 
 const router = express.Router();
 
@@ -37,5 +38,6 @@ router.get(
 // User routes
 router.get("/userOTP/:email", UserController.LoginUser);
 router.get("/VerifyLoginUser/:email/:otp", UserController.VerifyLoginUser);
+router.get("/LogOutUser", authMiddleware, UserController.LogOutUser);
 
 export default router;

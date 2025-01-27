@@ -2,7 +2,6 @@ import e from "express";
 import {
   CreateUserService,
   LogInUserService,
-  LogOutUserService,
   ReadUserService,
   UpdateUserService,
   VerifyUserService,
@@ -27,8 +26,12 @@ export const VerifyLoginUser = async (req, res) => {
   return res.status(200).json({ result });
 };
 export const LogOutUser = async (req, res) => {
-  let result = await LogOutUserService(req);
-  return res.status(200).json({ result });
+  const cookieOptions = {
+    expires: new Date(Date.now() - 3600000 * 24),
+    httpOnly: false,
+  };
+  res.cookie("token", "", cookieOptions);
+  return res.status(200).json({ status: "success" });
 };
 export const CreateUser = async (req, res) => {
   let result = await CreateUserService(req);
