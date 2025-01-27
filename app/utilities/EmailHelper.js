@@ -1,22 +1,33 @@
 import nodemailer from "nodemailer";
+
 export const EmailSend = async (EmailTo, EmailSubject, EmailText) => {
-  nodemailer.createTransport({
-    host: "mail.teamrabbil.com",
-    port: 25,
-    secure: false,
-    auth: {
-      user: "info@teamrabbil.com",
-      pass: "~sR4[bhaC[Qs",
-    },
-    tls: { rejectUnauthorized: false },
-  });
+  try {
+    const transport = nodemailer.createTransport({
+      host: "smtp-relay.brevo.com",
+      port: 587,
+      secure: false, // Use true for port 465
+      auth: {
+        user: process.env.SMTP_USER, // Store in environment variables
+        pass: process.env.SMTP_PASS, // Store in environment variables
+      },
+      family: 4,
+    });
 
-  const mailOption = {
-    from: "MERN E-Commerce Solutions <info@teamrabbil.com>", // Use a verified sender address
-    to: EmailTo,
-    subject: EmailSubject,
-    text: EmailText,
-  };
+    // Verify SMTP connection
+    await transport.verify();
 
-  return await transport.sendMail(mailOption);
+    const mailOption = {
+      from: `"MERN E-Commerce Solutions" <${process.env.SMTP_USER}>`, // Use the same email as SMTP user
+      to: EmailTo,
+      subject: EmailSubject,
+      text: EmailText,
+    };
+
+    // Send email
+    const result = await transport.sendMail(mailOption);
+    console.log("Email sent:", result.messageId);
+    return result;
+  } catch (error) {
+    console.error("Error sending email:", error);
+  }
 };

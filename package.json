@@ -9,9 +9,9 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
-    "@sendgrid/mail": "^8.1.4",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "express-rate-limit": "^7.4.1",
     "helmet": "^8.0.0",
