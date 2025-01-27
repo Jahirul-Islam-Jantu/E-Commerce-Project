@@ -39,5 +39,8 @@ router.get(
 router.get("/userOTP/:email", UserController.LoginUser);
 router.get("/VerifyLoginUser/:email/:otp", UserController.VerifyLoginUser);
 router.get("/LogOutUser", authMiddleware, UserController.LogOutUser);
+router.post("/CreateUser", authMiddleware, UserController.CreateUser);
+router.post("/UpdateUser", authMiddleware, UserController.UpdateUser);
+router.get("/ReadUser", authMiddleware, UserController.ReadUser);
 
 export default router;

@@ -1,9 +1,8 @@
 import e from "express";
 import {
-  CreateUserService,
+  SaveProfileUserService,
   LogInUserService,
   ReadUserService,
-  UpdateUserService,
   VerifyUserService,
 } from "../services/UsersServices.js";
 
@@ -34,11 +33,11 @@ export const LogOutUser = async (req, res) => {
   return res.status(200).json({ status: "success" });
 };
 export const CreateUser = async (req, res) => {
-  let result = await CreateUserService(req);
+  let result = await SaveProfileUserService(req);
   return res.status(200).json({ result });
 };
 export const UpdateUser = async (req, res) => {
-  let result = await UpdateUserService(req);
+  let result = await SaveProfileUserService(req);
   return res.status(200).json({ result });
 };
 export const ReadUser = async (req, res) => {

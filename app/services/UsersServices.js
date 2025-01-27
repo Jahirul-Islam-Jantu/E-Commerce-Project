@@ -1,6 +1,7 @@
 import { EmailSend } from "../utilities/EmailHelper.js";
 import UsersModel from "../model/UsersModel.js";
 import { EncodeToken } from "./../utilities/TokenHelper.js";
+import ProfileModel from "../model/ProfileModel.js";
 
 export const LogInUserService = async (req) => {
   try {
@@ -45,6 +46,35 @@ export const VerifyUserService = async (req) => {
   }
 };
 
-export const CreateUserService = async (req) => {};
-export const UpdateUserService = async (req) => {};
-export const ReadUserService = async (req) => {};
+export const SaveProfileUserService = async (req) => {
+  try {
+    let user_id = req.headers.user_id;
+    let reqBody = req.body;
+    reqBody.userID = user_id;
+
+    await ProfileModel.updateOne(
+      { userID: user_id },
+      { $set: reqBody },
+      { upsert: true }
+    );
+    return {
+      status: "success",
+      message: "User Saved successfully",
+    };
+  } catch (err) {
+    return { status: "failed", message: "Failed to create user", error: err };
+  }
+};
+export const ReadUserService = async (req) => {
+  try {
+    let user_id = req.headers.user_id;
+    let userProfile = await ProfileModel.findOne({ userID: user_id });
+    return {
+      status: "success",
+      message: "User Found",
+      userProfile: userProfile,
+    };
+  } catch (err) {
+    return { status: "failed", message: "Failed to read user", error: err };
+  }
+};
