@@ -2,6 +2,7 @@ import express from "express";
 import * as ProductController from "../controller/ProductController.js";
 import * as UserController from "../controller/userController.js";
 import { authMiddleware } from "./../middleware/AuthMiddleware.js";
+import * as WishController from "../controller/WishListController.js";
 
 const router = express.Router();
 
@@ -42,5 +43,14 @@ router.get("/LogOutUser", authMiddleware, UserController.LogOutUser);
 router.post("/CreateUser", authMiddleware, UserController.CreateUser);
 router.post("/UpdateUser", authMiddleware, UserController.UpdateUser);
 router.get("/ReadUser", authMiddleware, UserController.ReadUser);
+
+// wish list routes
+router.get("/WishList", authMiddleware, WishController.readWishlist);
+router.post("/addToWishList", authMiddleware, WishController.addToWishList);
+router.delete(
+  "/removeFromWishList",
+  authMiddleware,
+  WishController.removeFromWishList
+);
 
 export default router;
