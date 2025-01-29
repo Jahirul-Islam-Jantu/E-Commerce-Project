@@ -1,8 +1,11 @@
 import WishModel from "../model/WishModel.js";
 
+import mongoose from "mongoose";
+const ObjectID = mongoose.Types.ObjectId;
+
 export const getWishlist = async (req) => {
   try {
-    let user_id = req.headers.user_id;
+    let user_id = new ObjectID(req.headers.user_id); // req.headers.user_id;
     let matchStage = { $match: { userID: user_id } };
 
     let JoinStageProduct = {
