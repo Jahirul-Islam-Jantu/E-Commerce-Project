@@ -3,6 +3,7 @@ import * as ProductController from "../controller/ProductController.js";
 import * as UserController from "../controller/userController.js";
 import { authMiddleware } from "./../middleware/AuthMiddleware.js";
 import * as WishController from "../controller/WishListController.js";
+import * as CartController from "../controller/CartListController.js";
 
 const router = express.Router();
 
@@ -51,6 +52,25 @@ router.delete(
   "/removeFromWishList",
   authMiddleware,
   WishController.removeFromWishList
+);
+
+// cart List routes
+
+router.get("/CartList", authMiddleware, CartController.CartListController);
+router.post(
+  "/addToCart",
+  authMiddleware,
+  CartController.SaveCartListController
+);
+router.post(
+  "/updateCart",
+  authMiddleware,
+  CartController.UpdateCartListController
+);
+router.post(
+  "/deleteCart",
+  authMiddleware,
+  CartController.DeleteCartListController
 );
 
 export default router;
