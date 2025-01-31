@@ -4,6 +4,7 @@ import * as UserController from "../controller/userController.js";
 import { authMiddleware } from "./../middleware/AuthMiddleware.js";
 import * as WishController from "../controller/WishListController.js";
 import * as CartController from "../controller/CartListController.js";
+import * as InvoiceController from "../controller/InvoiceController.js";
 
 const router = express.Router();
 
@@ -72,5 +73,31 @@ router.post(
   authMiddleware,
   CartController.DeleteCartListController
 );
+
+// Invoice routes
+router.get(
+  "/CreateInvoice",
+  authMiddleware,
+  InvoiceController.CreateInvoiceController
+);
+
+router.get(
+  "/InvoiceList",
+  authMiddleware,
+  InvoiceController.InvoiceListController
+);
+router.get(
+  "/InvoiceProductList/:invoice_id",
+  authMiddleware,
+  InvoiceController.InvoiceProductListController
+);
+
+router.post(
+  "/PaymentSuccess/:trxID",
+  InvoiceController.PaymentSuccessController
+);
+router.post("/PaymentCancel/:trxID", InvoiceController.PaymentCancelController);
+router.post("/PaymentFail/:trxID", InvoiceController.PaymentFailController);
+router.post("/PaymentIPN/:trxID", InvoiceController.PaymentIPNController);
 
 export default router;
