@@ -62,8 +62,8 @@ router.post(
   authMiddleware,
   CartController.SaveCartListController
 );
-router.post(
-  "/updateCart",
+router.put(
+  "/updateCart/:cartID",
   authMiddleware,
   CartController.UpdateCartListController
 );

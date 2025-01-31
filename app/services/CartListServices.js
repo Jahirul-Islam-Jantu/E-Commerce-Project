@@ -114,6 +114,18 @@ export const DeleteCartListService = async (req) => {
 
 export const UpdateCartListService = async (req) => {
   try {
+    let user_id = req.headers.user_id;
+    let cartID = req.params.cartID;
+    let reqBody = req.body;
+
+    await CartModel.updateOne(
+      { _id: cartID, userID: user_id },
+      { $set: reqBody }
+    );
+    return {
+      status: "success",
+      message: "Product updated to CartList",
+    };
   } catch (err) {
     return {
       status: "failed",
